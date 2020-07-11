@@ -5,6 +5,11 @@ public class Product {
 	private int Product_id;
 	private int Product_type_id;
 	private String Product_name;
+	private float Product_price;
+	private float Product_vip_price;
+	private int Product_stock;
+	private String Product_format;
+	private String Product_statement;
 	public String getcell(int col) {
 		if(col==0) return ""+getProduct_id();
 		else if(col==1) return ""+getProduct_type_id(); 
@@ -64,10 +69,5 @@ public class Product {
 	public void setProduct_statement(String product_statement) {
 		Product_statement = product_statement;
 	}
-	private float Product_price;
-	private float Product_vip_price;
-	private int Product_stock;
-	private String Product_format;
-	private String Product_statement;
 
 }

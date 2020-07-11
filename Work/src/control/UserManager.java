@@ -251,6 +251,12 @@ public class UserManager {
 			ResultSet rst=pst.executeQuery();
 			if(!rst.next()) throw new BussinessException("不存在此地址");
 			rst.close();
+			pst.close();
+			sql="select * from order_product where Oder_info_address_id=?";
+			pst=connection.prepareStatement(sql);
+			pst.setInt(1, address.getAddress_id());
+			rst=pst.executeQuery();
+			if(rst.next()) throw new BussinessException("禁止修改关联订单的地址");
 			sql="update address set address_province=?,address_city=?,address_area=?,address_person=?,address_tel=? where address_id=?";
 			pst=connection.prepareStatement(sql);
 			pst.setString(1, address.getAddress_province());
@@ -289,6 +295,14 @@ public class UserManager {
 			pst.setInt(1, n);
 			ResultSet rst=pst.executeQuery();
 			if(!rst.next()) throw new BussinessException("无此地址");
+			rst.close();
+			pst.close();
+			sql="select * from order_product where Oder_info_address_id=?";
+			pst=connection.prepareStatement(sql);
+			pst.setInt(1, n);
+			rst=pst.executeQuery();
+			if(rst.next()) throw new BussinessException("禁止删除关联订单的地");
+			pst.close();
 			rst.close();
 			sql="delete from address where address_id=?";
 			pst=connection.prepareStatement(sql);
@@ -355,7 +369,9 @@ public class UserManager {
 			ResultSet rst=pst.executeQuery();
 			if(!rst.next()) throw new BussinessException("此用户未位置地址，请设置地址后再购买");
 			rst.close();
+			pst.close();
 			sql="select * from address where address_id=?";
+			pst=connection.prepareStatement(sql);
 			pst.setInt(1, n);
 			rst=pst.executeQuery();
 			if(rst.next()) {
@@ -367,6 +383,7 @@ public class UserManager {
 				address.setAddress_person(rst.getString(6));
 				address.setAddress_tel(rst.getString(7));
 			}
+			//System.out.println("any函数拿到地址"+address.getAddress_id());
  			return address;
 		}catch(SQLException ex){
 			ex.printStackTrace();

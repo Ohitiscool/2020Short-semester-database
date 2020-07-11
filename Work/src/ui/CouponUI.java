@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -27,7 +28,7 @@ public class CouponUI extends JFrame {
 	DefaultTableModel tableModel=new DefaultTableModel();
 	private Object[] titles= {"优惠券id","满减门槛","优惠金额","启用日期","结束日期"};
 	private Object tblData[][];
-	FMain fMain;
+	private FMain fMain=null;
 
 	/**
 	 * Launch the application.
@@ -62,6 +63,23 @@ public class CouponUI extends JFrame {
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		
 		JButton btnNewButton_get = new JButton("领取");
+		btnNewButton_get.addActionListener((e)->{
+			int i=this.table.getSelectedRow();
+			if(i<0) {
+				JOptionPane.showMessageDialog(null, "优惠券","提示",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			int n=Integer.parseInt(this.tblData[i][0].toString());//n为优惠券id
+			try {
+				LoginStart.couponManager.receivecoupon(n);
+				loadCouponRow();
+			} catch (BaseException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, e1.getMessage(),"提示",JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+				return ;
+			}
+		});
 		toolBar.add(btnNewButton_get);
 		
 		JButton btnNewButton_back = new JButton("后退");
@@ -71,12 +89,6 @@ public class CouponUI extends JFrame {
 		});
 		toolBar.add(btnNewButton_back);
 		
-		tableModel.addColumn("优惠券id");
-		tableModel.addColumn("优惠券描述");
-		tableModel.addColumn("使用的低价");
-		tableModel.addColumn("优惠额度");
-		tableModel.addColumn("启用日期");
-		tableModel.addColumn("截止日期");
 		table = new JTable(tableModel);
 		table.setFillsViewportHeight(true);
 		table.setRowSelectionAllowed(true);
@@ -104,6 +116,9 @@ public class CouponUI extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public void setfmain(FMain f) {
+		this.fMain=f;
 	}
 
 }

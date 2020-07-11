@@ -86,7 +86,7 @@ public class Choose_coupon extends JDialog {
 	}
 	public void loadcoupon() {
 		try {
-			list =LoginStart.couponManager.loadmyCoupons();
+			list =LoginStart.couponManager.loadmyCoupons(sum);
 			tblData=new Object[list.size()][6];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getCoupon_id();
@@ -110,8 +110,8 @@ public class Choose_coupon extends JDialog {
 			System.out.println("优惠券数量"+list.size());
 			int i=this.table.getSelectedRow();
 		    if(i<0) {
-		    	JOptionPane.showMessageDialog(null, "请选择优惠券","提示",JOptionPane.ERROR_MESSAGE);
-				return false;
+		    	JOptionPane.showMessageDialog(null, "不使用优惠券","提示",JOptionPane.WARNING_MESSAGE);
+				return true;
 		    	}
 		    int n=Integer.parseInt(this.tblData[i][0].toString());
 		    System.out.println("优惠券id   "+n);

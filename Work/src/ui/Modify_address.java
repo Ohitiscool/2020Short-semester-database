@@ -136,6 +136,7 @@ public class Modify_address extends JDialog implements ActionListener{
 		try {
 			LoginStart.userManager.modifyAddress(address);
 		} catch (BaseException e) {
+			JOptionPane.showMessageDialog(null,e.getMessage(),"错误", JOptionPane.ERROR_MESSAGE);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

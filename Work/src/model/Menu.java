@@ -5,6 +5,9 @@ import javax.print.attribute.standard.Media;
 public class Menu {
 	private int Menu_id;
 	private String Menu_name;
+	private String menu_product;
+	private String Menu_step;
+	private Media Menu_imag;  //后面再说
 	public int getMenu_id() {
 		return Menu_id;
 	}
@@ -35,9 +38,6 @@ public class Menu {
 	public void setMenu_imag(Media menu_imag) {
 		Menu_imag = menu_imag;
 	}
-	private String menu_product;
-	private String Menu_step;
-	private Media Menu_imag;  //后面再说
 	
 
 }

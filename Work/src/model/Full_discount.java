@@ -1,6 +1,13 @@
 package model;
 
 public class Full_discount {
+	private int full_distcount_id;
+	private int full_distcount_product_id;
+	private float full_distcount_base; //base对应between
+	private String full_distcount_statement; //描述
+	private float full_distcount_discount;
+	private java.sql.Timestamp full_distcount_begin_id;
+	private java.sql.Timestamp full_distcount_end_id;
 	public int getFull_distcount_id() {
 		return full_distcount_id;
 	}
@@ -31,19 +38,12 @@ public class Full_discount {
 	public void setFull_distcount_end_id(java.sql.Timestamp full_distcount_end_id) {
 		this.full_distcount_end_id = full_distcount_end_id;
 	}
-	private int full_distcount_id;
-	private int full_distcount_product_id;
-	private float full_distcount_base;
 	public float getFull_distcount_base() {
 		return full_distcount_base;
 	}
 	public void setFull_distcount_base(float full_distcount_base) {
 		this.full_distcount_base = full_distcount_base;
 	}
-	private String full_distcount_statement;
-	private float full_distcount_discount;
-	private java.sql.Timestamp full_distcount_begin_id;
-	private java.sql.Timestamp full_distcount_end_id;
 	public int getFull_distcount_product_id() {
 		return full_distcount_product_id;
 	}

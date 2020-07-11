@@ -81,6 +81,10 @@ public class Chosse_Address extends JDialog implements ActionListener{
 		buttonPane.add(cancelButton);
 		cancelButton.addActionListener(this);
 		listalladdress();
+		if(list.size()==0) {
+			JOptionPane.showMessageDialog(null, "此用户未设置地址","提示",JOptionPane.ERROR_MESSAGE);
+			this.setVisible(false);
+		}
 		}
 
 	public void listalladdress() {
@@ -117,6 +121,7 @@ public class Chosse_Address extends JDialog implements ActionListener{
 		    System.out.println("地址id   "+n);
 		    try {
 		    	address=LoginStart.userManager.anyAddress(n);
+		    	System.out.println("选择地址拿到地址id"+address.getAddress_id()+"   "+address.getAddress_city());
 		    	return true;
 		    	} catch (BaseException e1) {
 			// TODO Auto-generated catch block

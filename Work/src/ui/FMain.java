@@ -73,8 +73,8 @@ public class FMain extends JFrame {
 		menuItem_product.addActionListener((e)->{
 				ProductUI productUI=new ProductUI();
 				productUI.setVisible(true);
-				//this.setEnabled(false);
-				productUI.fMain=getFMain(this);
+				this.setEnabled(false);
+				productUI.setFmain(this);
 		});
 		Menu_product.add(menuItem_product);
 		
@@ -82,12 +82,24 @@ public class FMain extends JFrame {
 		Menu_product.add(menuItem_menu);
 		
 		JMenuItem menuItem_product_sugg = new JMenuItem("商品推荐");
+		menuItem_product_sugg.addActionListener((e)->{
+			Product_sugg product_sugg=new Product_sugg();
+			product_sugg.setfmain(this);
+			this.setEnabled(false);
+			product_sugg.setVisible(true);
+		});
 		Menu_product.add(menuItem_product_sugg);
 		
 		JMenuItem menuItem_menu_sugg = new JMenuItem("菜谱推荐");
 		Menu_product.add(menuItem_menu_sugg);
 		
 		JMenuItem menuItem_product_statement = new JMenuItem("商品评价");
+		menuItem_product_statement.addActionListener((e)->{
+			Product_evalution product_evalution=new Product_evalution();
+			product_evalution.setVisible(true);
+			this.setEnabled(false);
+			product_evalution.setfmain(this);
+		});
 		Menu_product.add(menuItem_product_statement);
 		
 		JMenu Menu_coupon = new JMenu("优惠券");
@@ -98,8 +110,8 @@ public class FMain extends JFrame {
 		menuItem_coupon.addActionListener((e)->{
 			CouponUI couponUI=new CouponUI();
 			couponUI.setVisible(true);
-			//this.setEnabled(false);
-			couponUI.fMain=getFMain(this);
+			this.setEnabled(false);
+			couponUI.setfmain(this);
 		});
 		Menu_coupon.add(menuItem_coupon);
 		
@@ -108,9 +120,21 @@ public class FMain extends JFrame {
 		menuBar.add(Menu_discount);
 		
 		JMenuItem menuItem_distcount = new JMenuItem("限时促销");
+		menuItem_distcount.addActionListener((e)->{
+			Distcount_timeUI distcount_timeUI=new Distcount_timeUI();
+			distcount_timeUI.setVisible(true);
+			this.setEnabled(false);
+			distcount_timeUI.setfmain(this);
+		});
 		Menu_discount.add(menuItem_distcount);
 		
-		JMenuItem Menuitem_manzhe = new JMenuItem("清仓处理");
+		JMenuItem Menuitem_manzhe = new JMenuItem("满折优惠");
+		Menuitem_manzhe.addActionListener((e)->{
+			ManzheUI manzheUI=new ManzheUI();
+			this.setEnabled(false);
+			manzheUI.setfmain(this);
+			manzheUI.setVisible(true);
+		});
 		Menu_discount.add(Menuitem_manzhe);
 		
 		JMenu Menu_mine = new JMenu("我的");
@@ -121,15 +145,27 @@ public class FMain extends JFrame {
 		Menuitem_address.addActionListener((e)->{
 			AddressUI addressUI=new AddressUI();
 			addressUI.setVisible(true);
-			//this.setEnabled(false);   直接不用阻塞了
-			addressUI.fMain=getFMain(this);
+			this.setEnabled(false);  
+			addressUI.setfmain(this);
 		});
 		Menu_mine.add(Menuitem_address);
 		
 		JMenuItem Menuitem_order = new JMenuItem("我的订单");
+		Menuitem_order.addActionListener((e)->{
+			My_Order my_Order=new My_Order();
+			my_Order.setfmain(this);
+			this.setEnabled(false);
+			my_Order.setVisible(true);
+		});
 		Menu_mine.add(Menuitem_order);
 		
 		JMenuItem Menuitem_mine_coupon = new JMenuItem("我的优惠券");
+		Menuitem_mine_coupon.addActionListener((e)->{
+			Mycoupon mycoupon=new Mycoupon();
+			this.setEnabled(false);
+			mycoupon.setfmain(this);
+			mycoupon.setVisible(true);
+		});
 		Menu_mine.add(Menuitem_mine_coupon);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

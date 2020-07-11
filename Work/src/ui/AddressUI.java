@@ -41,7 +41,7 @@ public class AddressUI extends JFrame implements ActionListener{
 	DefaultTableModel tableModel=new DefaultTableModel();
 	private Object addtitles[]= {"地址id","省份","城市","地区","联系人","电话号码"};
 	private Object tblData[][];
-	FMain fMain=null;
+	private FMain fMain=null;
 	/**
 	 * Launch the application.
 	 */
@@ -168,6 +168,9 @@ public class AddressUI extends JFrame implements ActionListener{
 			}
 		}
 		// TODO Auto-generated method stub
+	}
+	public void setfmain(FMain f) {
+		this.fMain=f;
 	}
 	
 	

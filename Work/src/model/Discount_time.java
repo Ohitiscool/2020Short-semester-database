@@ -5,6 +5,8 @@ public class Discount_time {
 	private int Product_id;
 	private float distcount_time_price;
 	private int distcount_time_count;
+	private java.sql.Timestamp distcount_time_begin;
+	private java.sql.Timestamp distcount_time_end;
 	public int getDistcount_time_id() {
 		return distcount_time_id;
 	}
@@ -41,7 +43,5 @@ public class Discount_time {
 	public void setDistcount_time_end(java.sql.Timestamp distcount_time_end) {
 		this.distcount_time_end = distcount_time_end;
 	}
-	private java.sql.Timestamp distcount_time_begin;
-	private java.sql.Timestamp distcount_time_end;
 
 }

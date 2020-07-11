@@ -50,5 +50,12 @@ public class Coupon {
 	private float Coupon_sub;
 	private java.sql.Timestamp Coupon_begin;
 	private java.sql.Timestamp Coupon_end;
+	private java.sql.Timestamp Coupon_used;
+	public java.sql.Timestamp getCoupon_used() {
+		return Coupon_used;
+	}
+	public void setCoupon_used(java.sql.Timestamp coupon_used) {
+		Coupon_used = coupon_used;
+	}
 
 }

@@ -38,13 +38,13 @@ public class ProductUI extends JFrame implements ActionListener{
 	JButton NewButton_buy = new JButton("购买");
 	JButton Button_quit = new JButton("后退");
 	DefaultTableModel tabkleModel=new DefaultTableModel();
-	FMain fMain;
 	private Object titles[]= {"商品id","类别Id","商品名称","价格","会员价","库存","规格","状态"};
 	private Object tbldata[][];
 	private Address address=null;
 	private Coupon  coupon=null;
 	private Discount_time discount_time=null;
 	private Full_discount full_discount=null;
+	private FMain fMain=null;
 	
 	
 	
@@ -88,14 +88,6 @@ public class ProductUI extends JFrame implements ActionListener{
 		JScrollPane scoreBar=new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		table.setRowSelectionAllowed(true);
-		tabkleModel.addColumn("商品id");
-		tabkleModel.addColumn("商品类别id");
-		tabkleModel.addColumn("商品名称");
-		tabkleModel.addColumn("商品价格");
-		tabkleModel.addColumn("vip价格");
-		tabkleModel.addColumn("库存");
-		tabkleModel.addColumn("规格");
-		tabkleModel.addColumn("描述");
 		contentPane.add(scoreBar, BorderLayout.CENTER);
 		this.loadproduct();  //每次启动都生成
 	}
@@ -194,8 +186,10 @@ public class ProductUI extends JFrame implements ActionListener{
 		float sum3=sum2;
 		try {
 			full_discount=LoginStart.full_distcountManager.getfulldistcount(n, sum2);
+			System.out.println("full_distcount!"+full_discount);
 			if(full_discount!=null) {
 				sum3=sum2-full_discount.getFull_distcount_discount();
+				System.out.println("fullllll   "+sum3);
 			}
 		} catch (BaseException e1) {
 			JOptionPane.showMessageDialog(null,e1.getMessage(),"错误", JOptionPane.ERROR_MESSAGE);
@@ -208,15 +202,16 @@ public class ProductUI extends JFrame implements ActionListener{
 		//确认优惠券，可以不用优惠券
 		float sum4=sum3;
 		Choose_coupon choose_coupon=new Choose_coupon(this, "选择优惠券", true,sum3);
+		System.out.println("buy coupon!"+choose_coupon.usedCoupon());
 		choose_coupon.setVisible(true);
 		if(choose_coupon.exec()) {
 			if(choose_coupon.usedCoupon()!=null) {
+				coupon=choose_coupon.usedCoupon();
 				sum4=sum4-choose_coupon.usedCoupon().getCoupon_sub();
 			}
 			this.loadproduct();
 		}
 		else {
-			JOptionPane.showMessageDialog(this,"不使用优惠券");  //还未调试
 			return; //没正常运行优惠券系统不给买
 		}
 		
@@ -234,6 +229,7 @@ public class ProductUI extends JFrame implements ActionListener{
 		
 		try {
 			LoginStart.orderManager.addorder(coupon, address, n, count, sum1, sum4, discount_time, full_discount);
+			System.out.println(address.getAddress_id()+"   dsadsadsad");
 		} catch (BaseException e1) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null,e1.getMessage(),"错误", JOptionPane.ERROR_MESSAGE);
@@ -252,6 +248,9 @@ public class ProductUI extends JFrame implements ActionListener{
 		}
 		// TODO Auto-generated method stub
 		
+	}
+	public void setFmain(FMain f) {
+		this.fMain=f;
 	}
 
 }
