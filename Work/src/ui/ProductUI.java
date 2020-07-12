@@ -93,7 +93,7 @@ public class ProductUI extends JFrame implements ActionListener{
 	}
 	public void loadproduct() {
 		try {
-			java.util.List<Product> list=LoginStart.productManager.loadall();
+			java.util.List<Product> list=LoginStart.productManager.load_on_product();
 			tbldata=new Object[list.size()][8];
 				for(int i=0;i<list.size();i++) {
 				tbldata[i][0]=list.get(i).getProduct_id();

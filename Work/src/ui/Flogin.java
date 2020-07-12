@@ -1,5 +1,6 @@
 package ui;
 
+import system.ui.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -101,6 +102,8 @@ public class Flogin extends JFrame {
 				    return;
 				}
 				this.setVisible(false);
+				SystemMain systemMain=new SystemMain();
+				systemMain.setVisible(true);
 				
 			}
 			else if(item.equals("会员")) {

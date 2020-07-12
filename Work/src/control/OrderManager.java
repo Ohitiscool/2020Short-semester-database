@@ -233,5 +233,79 @@ public class OrderManager {
 		OrderManager orderManager=new OrderManager();
 		orderManager.loadallroder();
 	}
+	public List<Order_info> loadroder() throws BaseException{
+		List<Order_info> list=new ArrayList<>();
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from order_product ";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Order_info p=new Order_info();
+				p.setOrder_info_Order_id(rst.getInt(1));
+				p.setOrder_info_product_id(rst.getInt(2));
+				p.setOrder_info_user_id(rst.getString(3));
+				p.setOrder_info_count(rst.getInt(4));
+				p.setOrder_info_discount_time_id(rst.getInt(5));
+				p.setOrder_info_begin_price(rst.getFloat(6));
+				p.setOrder_info_end_price(rst.getFloat(7));
+				p.setOrder_info_coupon_id(rst.getInt(8));
+				p.setOder_info_fulldiscount_ID(rst.getInt(9));
+				p.setOrder_info_Order_planTime(rst.getTimestamp(10));
+				p.setOrder_info_order_finishTime(rst.getTimestamp(11));
+				p.setOder_info_address_id(rst.getInt(12));
+				p.setOder_info_statement(rst.getString(13));
+				list.add(p);
+			}
+			return list;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	}
+	}
+	public void finishorder(int n) throws BaseException{
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from order_product where Oder_info_Order_id=?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setInt(1, n);
+			ResultSet rst=pst.executeQuery();
+			if(rst.next()) {
+				if(rst.getTimestamp(11)!=null) throw new BussinessException("订单已经完成");
+			}
+			rst.close();
+			pst.close();
+			sql="update order_product set Order_info_finishtime=now(),Oder_info_statement='finished' where Oder_info_Order_id=?";
+			pst=connection.prepareStatement(sql);
+			pst.setInt(1, n);
+			pst.execute();
+			pst.close();
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	}
+}
 
 }

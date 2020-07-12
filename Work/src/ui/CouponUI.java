@@ -66,7 +66,7 @@ public class CouponUI extends JFrame {
 		btnNewButton_get.addActionListener((e)->{
 			int i=this.table.getSelectedRow();
 			if(i<0) {
-				JOptionPane.showMessageDialog(null, "优惠券","提示",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请选择优惠券","提示",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			int n=Integer.parseInt(this.tblData[i][0].toString());//n为优惠券id

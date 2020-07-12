@@ -7,6 +7,7 @@ import control.DiscountManager;
 import control.Full_distcountManager;
 import control.OrderManager;
 import control.ProductManager;
+import control.TypeManager;
 import control.UserManager;
 import model.Coupon;
 import model.Full_discount;
@@ -18,5 +19,5 @@ public class LoginStart {
 	public static DiscountManager dsiDiscountManager=new DiscountManager();
 	public static Full_distcountManager full_distcountManager=new Full_distcountManager();
 	public static OrderManager orderManager=new OrderManager();
-
+	public static TypeManager typeManager=new TypeManager();
 }
