@@ -113,6 +113,19 @@ public class Discount_timeSys extends JFrame {
 			this.setVisible(false);
 			fMain.setEnabled(true);
 		});
+		
+		JButton btnNewButton = new JButton("搜索");
+		btnNewButton.addActionListener((e)->{
+			String id=JOptionPane.showInputDialog("请输入产品id");
+			if(id.isEmpty()) {
+				load_distcountRow();
+			}
+			else {
+				int n=Integer.parseInt(id);
+				load_distcountRow(n);
+			}
+		});
+		toolBar.add(btnNewButton);
 		toolBar.add(btnNewButton_back);
 		
 		table = new JTable(tableModel);
@@ -123,6 +136,27 @@ public class Discount_timeSys extends JFrame {
 	public void load_distcountRow() {
 		try {
 			List<Discount_time> list =LoginStart.dsiDiscountManager.loadallDiscount_time_sys();
+			tblData=new Object[list.size()][6];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getDistcount_time_id();
+				tblData[i][1]=list.get(i).getProduct_id();
+				tblData[i][2]=list.get(i).getDistcount_time_price();
+				tblData[i][3]=list.get(i).getDistcount_time_count();
+				tblData[i][4]=list.get(i).getDistcount_time_begin();
+				tblData[i][5]=list.get(i).getDistcount_time_end();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void load_distcountRow(int n) {
+		try {
+			List<Discount_time> list =LoginStart.dsiDiscountManager.loadallDiscount_time_sys(n);
 			tblData=new Object[list.size()][6];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getDistcount_time_id();

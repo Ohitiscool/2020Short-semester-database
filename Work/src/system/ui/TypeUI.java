@@ -35,6 +35,7 @@ public class TypeUI extends JFrame implements ActionListener{
 	private SystemMain systemMain;
 	private JButton btnNewButton_1 = new JButton("修改类别");
 	private JButton btnNewButton = new JButton("添加类别");
+	private JButton btnNewButton_2;
 	/**
 	 * Launch the application.
 	 */
@@ -77,6 +78,18 @@ public class TypeUI extends JFrame implements ActionListener{
 			this.systemMain.setEnabled(true);
 			this.setVisible(false);
 		});
+		
+		btnNewButton_2 = new JButton("搜索");
+		btnNewButton_2.addActionListener((e)->{
+			String name=JOptionPane.showInputDialog("请输入类型名称");
+			if(name.isEmpty()) {
+				listalltype();
+			}
+			else {
+				listalltype(name);
+			}
+		});
+		toolBar.add(btnNewButton_2);
 		toolBar.add(btnNewButton_back);
 		
 		table = new JTable(tableModel);
@@ -90,6 +103,24 @@ public class TypeUI extends JFrame implements ActionListener{
 	public void listalltype() {//重载和加载页面
 		try {
 			List<model.Type> list =LoginStart.typeManager.loadallTypes();
+			tblData=new Object[list.size()][3];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getType_id();
+				tblData[i][1]=list.get(i).getType_name();
+				tblData[i][2]=list.get(i).getState();
+			}
+			tableModel.setDataVector(tblData, addtitles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void listalltype(String name) {//重载和加载页面
+		try {
+			List<model.Type> list =LoginStart.typeManager.loadallTypes(name);
 			tblData=new Object[list.size()][3];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getType_id();

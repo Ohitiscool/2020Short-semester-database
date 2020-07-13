@@ -22,6 +22,9 @@ import javax.swing.JToolBar;
 import javax.swing.SingleSelectionModel;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
+import java.awt.Label;
+import java.awt.TextField;
+
 import javax.swing.JTable;
 import model.*;
 import start.LoginStart;
@@ -29,6 +32,8 @@ import util.BaseException;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class ProductUI extends JFrame implements ActionListener{
 
@@ -45,6 +50,9 @@ public class ProductUI extends JFrame implements ActionListener{
 	private Discount_time discount_time=null;
 	private Full_discount full_discount=null;
 	private FMain fMain=null;
+	private TextField serchField=new TextField();
+	private JButton jButton=new JButton("搜索");
+	private final JButton btnNewButton = new JButton("搜索");
 	
 	
 	
@@ -70,30 +78,66 @@ public class ProductUI extends JFrame implements ActionListener{
 	public ProductUI() {
 		setTitle("商品列表");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 763, 674);
+		setBounds(100, 100, 749, 637);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(null);
+		toolBar.setBounds(5, 5, 723, 23);
 		
-		contentPane.add(toolBar, BorderLayout.NORTH);
+		contentPane.add(toolBar);
 		
 		toolBar.add(NewButton_buy);
 		NewButton_buy.addActionListener(this);
+		btnNewButton.addActionListener((e)->{
+			String p=JOptionPane.showInputDialog("请输入商品名称 模糊搜索");
+			if(p.isEmpty()) {
+				loadproduct();
+			}
+			else {
+				loadproduct(p);
+			}
+		});
+		
+		toolBar.add(btnNewButton);
 		Button_quit.addActionListener(this);
 		
 		toolBar.add(Button_quit);
 		
 		table = new JTable(tabkleModel);
 		JScrollPane scoreBar=new JScrollPane(table);
+		scoreBar.setBounds(5, 28, 723, 565);
 		table.setFillsViewportHeight(true);
 		table.setRowSelectionAllowed(true);
-		contentPane.add(scoreBar, BorderLayout.CENTER);
+		contentPane.add(scoreBar);
 		this.loadproduct();  //每次启动都生成
 	}
 	public void loadproduct() {
 		try {
 			java.util.List<Product> list=LoginStart.productManager.load_on_product();
+			tbldata=new Object[list.size()][8];
+				for(int i=0;i<list.size();i++) {
+				tbldata[i][0]=list.get(i).getProduct_id();
+				tbldata[i][1]=list.get(i).getProduct_type_id();
+				tbldata[i][2]=list.get(i).getProduct_name();
+				tbldata[i][3]=list.get(i).getProduct_price();
+				tbldata[i][4]=list.get(i).getProduct_vip_price();
+				tbldata[i][5]=list.get(i).getProduct_stock();
+				tbldata[i][6]=list.get(i).getProduct_format();
+				tbldata[i][7]=list.get(i).getProduct_statement();
+			}
+			tabkleModel.setDataVector(tbldata, titles);
+			this.table.validate();
+			this.table.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void loadproduct(String name) {
+		try {
+			java.util.List<Product> list=LoginStart.productManager.load_on_product(name);
 			tbldata=new Object[list.size()][8];
 				for(int i=0;i<list.size();i++) {
 				tbldata[i][0]=list.get(i).getProduct_id();
@@ -252,5 +296,4 @@ public class ProductUI extends JFrame implements ActionListener{
 	public void setFmain(FMain f) {
 		this.fMain=f;
 	}
-
 }

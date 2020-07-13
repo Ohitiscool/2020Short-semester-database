@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -32,6 +33,7 @@ public class Product_evalution extends JFrame {
 	private FMain fMain=null;
 	private JScrollPane jScrollPane;
 	private SystemMain sys;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -73,6 +75,19 @@ public class Product_evalution extends JFrame {
 			}
 			this.setVisible(false);
 		});
+		
+		btnNewButton_1 = new JButton("搜索");
+		btnNewButton_1.addActionListener((e)->{
+			String name=JOptionPane.showInputDialog("输入要搜索的产品号");
+			if(name.isEmpty()) {
+				load_product_eva();
+			}
+			else {
+				int n=Integer.parseInt(name);
+				load_product_eva(n);
+			}
+		});
+		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton);
 		
 		table = new JTable(tableModel);
@@ -83,6 +98,27 @@ public class Product_evalution extends JFrame {
 	public void load_product_eva() {
 		try {
 			List<Product_eva> list =LoginStart.orderManager.load_produ_Evas();
+			tblData=new Object[list.size()][6];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getProduct_Evaluation_id();
+				tblData[i][1]=list.get(i).getProduct_Evaluation_user_id();
+				tblData[i][2]=list.get(i).getProduct_Evaluation_product_id();
+				tblData[i][3]=list.get(i).getProduct_Evaluation_time();
+				tblData[i][4]=list.get(i).getProduct_Evaluation_level();
+				tblData[i][5]=list.get(i).getProduct_Evaluation_imag();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void load_product_eva(int n) {
+		try {
+			List<Product_eva> list =LoginStart.orderManager.load_produ_Evas(n);
 			tblData=new Object[list.size()][6];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getProduct_Evaluation_id();

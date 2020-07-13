@@ -433,6 +433,40 @@ public class UserManager {
 			}
 		}
 	}
+	public List<SystemUser> loadsystemuser(String id) throws BaseException{
+		Connection connection=null;
+		List<SystemUser> list=new ArrayList<SystemUser>();
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from systemuser where SystemUser_id like ?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1, "%"+id+"%");
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				SystemUser s=new SystemUser();
+				s.setSystemUser_id(rst.getString(1));
+				s.setSystemUser_name(rst.getString(2));
+				list.add(s);
+			}
+			rst.close();
+			pst.close();
+			return list;
+			}
+		catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public void regsystemuser(String id,String name,String pwd) throws BaseException{
 		Connection connection=null;
 		try {
@@ -510,6 +544,48 @@ public class UserManager {
 			connection=DBUtil.getConnection();
 			String sql="select * from userlist";
 			PreparedStatement pst=connection.prepareStatement(sql);
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				User s=new User();
+				s.setUser_id(rst.getString(1));
+				s.setUser_name(rst.getString(2));
+				s.setUser_sex(rst.getString(3));
+				s.setUser_pwd(rst.getString(4));
+				s.setUser_tel(rst.getString(5));
+				s.setUser_email(rst.getString(6));
+				s.setUser_city(rst.getString(7));
+				s.setUser_reg_time(rst.getTimestamp(8));
+				s.setUser_end_time(rst.getTimestamp(9));
+				s.setUer_vip(rst.getInt(10));
+				list.add(s);
+			}
+			rst.close();
+			pst.close();
+			return list;
+			}
+		catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	public List<User> loadalluser(String id) throws BaseException{
+		Connection connection=null;
+		List<User> list=new ArrayList<User>();
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from userlist where User_id like ?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1, "%"+id+"%");
 			ResultSet rst=pst.executeQuery();
 			while(rst.next()) {
 				User s=new User();

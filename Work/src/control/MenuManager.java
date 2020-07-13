@@ -51,6 +51,40 @@ public class MenuManager {
 			}
 		}
 	}
+	public List<Menu> loadallMenus(String name) throws BaseException {
+		List<Menu> list=new ArrayList<Menu>();
+		Discount_time discount_time=new Discount_time();
+		java.sql.Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from menu where Menu_name like ? order by Menu_id";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1, "%"+name+"%");
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Menu p=new Menu();
+				p.setId(rst.getInt(1));
+				p.setName(rst.getString(2));
+				list.add(p);
+			}
+			rst.close();
+			pst.close();
+			return list;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public List<Menu_step> loadthisStep(Menu m) throws BaseException {
 		List<Menu_step> list=new ArrayList<Menu_step>();
 		Discount_time discount_time=new Discount_time();

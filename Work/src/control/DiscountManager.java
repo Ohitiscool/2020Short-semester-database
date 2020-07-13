@@ -95,6 +95,42 @@ public class DiscountManager {
 			}
 		}
 	}
+	public List<Discount_time> loadallDiscount_time(int n) throws BaseException {
+		List<Discount_time> list=new ArrayList<>();
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from distcount_time where now()>distcount_time_begin_time"
+					+ " and now()<distcount_time_end_time and distcount_time_count>0 and Product_id=?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setInt(1, n);
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Discount_time discount_time=new Discount_time();
+				discount_time.setDistcount_time_id(rst.getInt(1));
+				discount_time.setProduct_id(rst.getInt(2));
+				discount_time.setDistcount_time_price(rst.getFloat(3));
+				discount_time.setDistcount_time_count(rst.getInt(4));
+				discount_time.setDistcount_time_begin(rst.getTimestamp(5));
+				discount_time.setDistcount_time_end(rst.getTimestamp(6));
+				list.add(discount_time);
+			}
+			return list;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public List<Discount_time> loadallDiscount_time_sys() throws BaseException {
 		List<Discount_time> list=new ArrayList<>();
 		Connection connection=null;
@@ -102,6 +138,41 @@ public class DiscountManager {
 			connection=DBUtil.getConnection();
 			String sql="select * from distcount_time ";
 			PreparedStatement pst=connection.prepareStatement(sql);
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Discount_time discount_time=new Discount_time();
+				discount_time.setDistcount_time_id(rst.getInt(1));
+				discount_time.setProduct_id(rst.getInt(2));
+				discount_time.setDistcount_time_price(rst.getFloat(3));
+				discount_time.setDistcount_time_count(rst.getInt(4));
+				discount_time.setDistcount_time_begin(rst.getTimestamp(5));
+				discount_time.setDistcount_time_end(rst.getTimestamp(6));
+				list.add(discount_time);
+			}
+			return list;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	public List<Discount_time> loadallDiscount_time_sys(int n) throws BaseException {
+		List<Discount_time> list=new ArrayList<>();
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from distcount_time where Product_id=? ";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setInt(1, n);
 			ResultSet rst=pst.executeQuery();
 			while(rst.next()) {
 				Discount_time discount_time=new Discount_time();

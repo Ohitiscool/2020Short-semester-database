@@ -87,6 +87,17 @@ public class CouponUI extends JFrame {
 			fMain.setEnabled(true);
 			this.setVisible(false);
 		});
+		
+		JButton btnNewButton = new JButton("搜索");
+		btnNewButton.addActionListener((e)->{
+			String base=JOptionPane.showInputDialog("请输入满减门槛");
+			if(base.isEmpty()) return;
+			else {
+				float x=Float.parseFloat(base);
+				loadCouponRow(x);
+			}
+		});
+		toolBar.add(btnNewButton);
 		toolBar.add(btnNewButton_back);
 		
 		table = new JTable(tableModel);
@@ -100,6 +111,26 @@ public class CouponUI extends JFrame {
 	public void loadCouponRow() {
 		try {
 			List<Coupon> list =LoginStart.couponManager.loadallCoupons();
+			tblData=new Object[list.size()][5];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getCoupon_id();
+				tblData[i][1]=list.get(i).getCoupon_between();
+				tblData[i][2]=list.get(i).getCoupon_sub();
+				tblData[i][3]=list.get(i).getCoupon_begin();
+				tblData[i][4]=list.get(i).getCoupon_end();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadCouponRow(float x) {
+		try {
+			List<Coupon> list =LoginStart.couponManager.loadallCoupons(x);
 			tblData=new Object[list.size()][5];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getCoupon_id();

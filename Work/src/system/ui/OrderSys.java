@@ -32,6 +32,7 @@ public class OrderSys extends JFrame {
     private Object tbldata[][];
     private JButton btn_evalution;
     private SystemMain fMain=null;
+    private JButton btnNewButton_2;
 
 	/**
 	 * Launch the application.
@@ -87,6 +88,19 @@ public class OrderSys extends JFrame {
 		});
 		toolBar.add(btnNewButton);
 		
+		btnNewButton_2 = new JButton("搜索");
+		btnNewButton_2.addActionListener((e)->{
+			String id=JOptionPane.showInputDialog("请输入产品id");
+			if(id.isEmpty()) {
+				loadmyorder();
+			}
+			else {
+				int n=Integer.parseInt(id);
+				loadmyorder(n);
+			}
+		});
+		toolBar.add(btnNewButton_2);
+		
 		JButton btnNewButton_1 = new JButton("后退");
 		toolBar.add(btnNewButton_1);
 		btnNewButton_1.addActionListener((e)->{
@@ -98,6 +112,33 @@ public class OrderSys extends JFrame {
 	public void loadmyorder()  {
 		try {
 			list=LoginStart.orderManager.loadroder();
+			tbldata=new Object[list.size()][13];
+			 for(int i=0;i<list.size();i++) {
+				 tbldata[i][0]=list.get(i).getOrder_info_Order_id();
+				 tbldata[i][1]=list.get(i).getOrder_info_product_id();
+				 tbldata[i][2]=list.get(i).getOrder_info_user_id();
+				 tbldata[i][3]=list.get(i).getOrder_info_count();
+				 tbldata[i][4]=list.get(i).getOrder_info_discount_time_id();
+				 tbldata[i][5]=list.get(i).getOrder_info_begin_price();
+				 tbldata[i][6]=list.get(i).getOrder_info_end_price();
+				 tbldata[i][7]=list.get(i).getOrder_info_coupon_id();
+				 tbldata[i][8]=list.get(i).getOder_info_fulldiscount_ID();
+				 tbldata[i][9]=list.get(i).getOrder_info_Order_planTime();
+				 tbldata[i][10]=list.get(i).getOrder_info_order_finishTime();
+				 tbldata[i][11]=list.get(i).getOder_info_address_id();
+				 tbldata[i][12]=list.get(i).getOder_info_statement();
+			 }
+			 tableModel.setDataVector(tbldata, titles);
+			 this.table.validate();
+			 this.table.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadmyorder(int n)  {
+		try {
+			list=LoginStart.orderManager.loadroder(n);
 			tbldata=new Object[list.size()][13];
 			 for(int i=0;i<list.size();i++) {
 				 tbldata[i][0]=list.get(i).getOrder_info_Order_id();

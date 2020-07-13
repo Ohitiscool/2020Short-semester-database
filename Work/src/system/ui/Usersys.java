@@ -81,6 +81,18 @@ public class Usersys extends JFrame {
 			}
 			
 		});
+		
+		JButton btnNewButton_3 = new JButton("搜索");
+		btnNewButton_3.addActionListener((e)->{
+			String id=JOptionPane.showInputDialog("请输入用户id");
+			if(id.isEmpty()) {
+				loadallUser();
+			}
+			else {
+				loadallUser(id);
+			}
+		});
+		toolBar.add(btnNewButton_3);
 		toolBar.add(btnNewButton);
 		
 		JButton btnNewButton_2 = new JButton("设为vip");
@@ -119,6 +131,30 @@ public class Usersys extends JFrame {
 	public void loadallUser() {
 		try {
 			List<User> list =LoginStart.userManager.loadalluser();
+			tblData=new Object[list.size()][9];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getUser_id();
+				tblData[i][1]=list.get(i).getUser_name();
+				tblData[i][2]=list.get(i).getUser_sex();
+				tblData[i][3]=list.get(i).getUser_tel();
+				tblData[i][4]=list.get(i).getUser_email();
+				tblData[i][5]=list.get(i).getUser_city();
+				tblData[i][6]=list.get(i).getUser_reg_time();
+				tblData[i][7]=list.get(i).getUser_end_time();
+				tblData[i][8]=list.get(i).getUer_vip();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadallUser(String id) {
+		try {
+			List<User> list =LoginStart.userManager.loadalluser(id);
 			tblData=new Object[list.size()][9];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getUser_id();

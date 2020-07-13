@@ -23,9 +23,47 @@ public class  ProductManager {
 		Connection connection=null;
 		try {
 			connection=DBUtil.getConnection();
-			String sql="select * from product  where Product_statement=? and Product_stock>0 order by Product_type_id";
+			String sql="select * from product ";
 			PreparedStatement pst=connection.prepareStatement(sql);
-			pst.setString(1, "In the sale");
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Product p=new Product();
+				p.setProduct_id(rst.getInt(1));
+				p.setProduct_type_id(rst.getInt(2));
+				p.setProduct_name(rst.getString(3));
+				p.setProduct_price(rst.getFloat(4));
+				p.setProduct_vip_price(rst.getFloat(5));
+				p.setProduct_stock(rst.getInt(6));
+				p.setProduct_format(rst.getString(7));
+				p.setProduct_statement(rst.getString(8));
+				result.add(p);
+			}
+			pst.close();
+			rst.close();
+			return result;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	}
+	}
+	public List<Product> loadall(String name) throws BaseException{
+		List<Product> result=new ArrayList<>();
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from product where Product_name like ?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1, "%"+name+"%");
 			ResultSet rst=pst.executeQuery();
 			while(rst.next()) {
 				Product p=new Product();
@@ -179,6 +217,45 @@ public class  ProductManager {
 			connection=DBUtil.getConnection();
 			String sql="select * from product where Product_stock>0 and Product_statement='In the sale' order by Product_type_id ";
 			PreparedStatement pst=connection.prepareStatement(sql);
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Product p=new Product();
+				p.setProduct_id(rst.getInt(1));
+				p.setProduct_type_id(rst.getInt(2));
+				p.setProduct_name(rst.getString(3));
+				p.setProduct_price(rst.getFloat(4));
+				p.setProduct_vip_price(rst.getFloat(5));
+				p.setProduct_stock(rst.getInt(6));
+				p.setProduct_format(rst.getString(7));
+				p.setProduct_statement(rst.getString(8));
+				result.add(p);
+			}
+			pst.close();
+			rst.close();
+			return result;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	}
+	}
+	public List<Product> load_on_product(String name) throws BaseException{
+		List<Product> result=new ArrayList<>();
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from product where Product_stock>0 and Product_statement='In the sale' and Product_name like ? order by Product_type_id ";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1, "%"+name+"%");
 			ResultSet rst=pst.executeQuery();
 			while(rst.next()) {
 				Product p=new Product();

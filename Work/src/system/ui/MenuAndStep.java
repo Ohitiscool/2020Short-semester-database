@@ -150,6 +150,18 @@ public class MenuAndStep extends JFrame {
 			this.setVisible(false);
 			fMain.setEnabled(true);
 		});
+		
+		JButton btnNewButton_1 = new JButton("搜索");
+		btnNewButton_1.addActionListener((e)->{
+			String name=JOptionPane.showInputDialog("请输入菜名");
+			if(name.isEmpty()) {
+				loadmenu();
+			}
+			else {
+				loadmenu(name);
+			}
+		});
+		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton);
 		
 		table_Menu = new JTable(tableModel_menu);
@@ -178,6 +190,23 @@ public class MenuAndStep extends JFrame {
 	public void loadmenu() {
 		try {
 			list_menu=LoginStart.menuManager.loadallMenus();
+			tbldate_menu=new Object[list_menu.size()][2];
+			for(int i=0;i<list_menu.size();i++) {
+				tbldate_menu[i][0]=list_menu.get(i).getId();
+				tbldate_menu[i][1]=list_menu.get(i).getName();
+			}
+			tableModel_menu.setDataVector(tbldate_menu, titles_menu);
+			this.table_Menu.validate();
+			this.table_Menu.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void loadmenu(String name) {
+		try {
+			list_menu=LoginStart.menuManager.loadallMenus(name);
 			tbldate_menu=new Object[list_menu.size()][2];
 			for(int i=0;i<list_menu.size();i++) {
 				tbldate_menu[i][0]=list_menu.get(i).getId();

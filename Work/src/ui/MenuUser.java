@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -45,6 +46,7 @@ public class MenuUser extends JFrame {
 	private FMain fMain;
 	private JToolBar toolBar;
 	private JButton btnNewButton;
+	private JButton btnNewButton_1;
 	/**
 	 * Launch the application.
 	 */
@@ -99,12 +101,41 @@ public class MenuUser extends JFrame {
 			this.setVisible(false);
 			fMain.setEnabled(true);
 		});
+		
+		btnNewButton_1 = new JButton("搜索");
+		btnNewButton_1.addActionListener((e)->{
+			String name=JOptionPane.showInputDialog("请输入菜名");
+			if(name.isEmpty()) {
+				loadmenu();
+			}
+			else {
+				loadmenu(name);
+			}
+		});
+		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton);
 		loadmenu() ;
 	}
 	public void loadmenu() {
 		try {
 			list_menu=LoginStart.menuManager.loadallMenus();
+			tbldate_menu=new Object[list_menu.size()][2];
+			for(int i=0;i<list_menu.size();i++) {
+				tbldate_menu[i][0]=list_menu.get(i).getId();
+				tbldate_menu[i][1]=list_menu.get(i).getName();
+			}
+			tableModel_menu.setDataVector(tbldate_menu, titles_menu);
+			this.table_menu.validate();
+			this.table_menu.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void loadmenu(String string) {
+		try {
+			list_menu=LoginStart.menuManager.loadallMenus(string);
 			tbldate_menu=new Object[list_menu.size()][2];
 			for(int i=0;i<list_menu.size();i++) {
 				tbldate_menu[i][0]=list_menu.get(i).getId();

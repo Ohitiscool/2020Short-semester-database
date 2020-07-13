@@ -75,7 +75,7 @@ public class Choose_type extends JDialog implements ActionListener{
 	}
 	public void listalltype() {//重载和加载页面
 		try {
-			list =LoginStart.typeManager.loadallTypes("In the sale");
+			list =LoginStart.typeManager.loaduseTypes("In the sale");
 			tblData=new Object[list.size()][3];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getType_id();

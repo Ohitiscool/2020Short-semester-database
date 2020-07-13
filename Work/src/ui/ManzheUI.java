@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -30,6 +31,7 @@ public class ManzheUI extends JFrame {
 	private Object tblData[][];
 	private FMain fMain=null;
 	private JScrollPane jScrollPane;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -66,6 +68,19 @@ public class ManzheUI extends JFrame {
 			fMain.setEnabled(true);
 			this.setVisible(false);
 		});
+		
+		btnNewButton_1 = new JButton("搜索");
+		btnNewButton_1.addActionListener((e)->{
+			String s=JOptionPane.showInputDialog("请输入产品id");
+			if(s.isEmpty()) {
+				loadManzheRow();
+			}
+			else {
+				int x=Integer.parseInt(s);
+				loadManzheRow(x);
+			}
+		});
+		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton);
 		
 		table = new JTable(tableModel);
@@ -76,6 +91,28 @@ public class ManzheUI extends JFrame {
 	public void loadManzheRow() {
 		try {
 			List<Full_discount> list =LoginStart.full_distcountManager.loadallfull();
+			tblData=new Object[list.size()][7];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getFull_distcount_id();
+				tblData[i][1]=list.get(i).getFull_distcount_product_id();
+				tblData[i][2]=list.get(i).getFull_distcount_base();
+				tblData[i][3]=list.get(i).getFull_distcount_discount();
+				tblData[i][4]=list.get(i).getFull_distcount_begin_id();
+				tblData[i][5]=list.get(i).getFull_distcount_end_id();
+				tblData[i][6]=list.get(i).getFull_distcount_statement();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadManzheRow(int x) {
+		try {
+			List<Full_discount> list =LoginStart.full_distcountManager.loadallfull(x);
 			tblData=new Object[list.size()][7];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getFull_distcount_id();

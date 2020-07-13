@@ -59,6 +59,47 @@ public class CouponManager {
 			}
 	}
 	}
+	public List<Coupon> loadallCoupons(float x) throws BaseException{//用户用的
+		List<Coupon> result=new ArrayList<>();
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from coupon where User_id is null and now()<Coupon_end_time "
+					+ " and Coupon_used_time is null and Coupon_between>=?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setFloat(1, x);
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Coupon p=new Coupon();
+				p.setCoupon_id(rst.getInt(1));
+				p.setCoupon_Userid(rst.getString(2));
+				p.setCoupon_statement(rst.getString(3));
+				p.setCoupon_between(rst.getFloat(4));
+				p.setCoupon_sub(rst.getFloat(5));
+				p.setCoupon_begin(rst.getTimestamp(6));
+				p.setCoupon_end(rst.getTimestamp(7));
+				p.setCoupon_used(rst.getTimestamp(8));
+				System.out.println(p);
+				result.add(p);
+			}
+			pst.close();
+			rst.close();
+			return result;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	}
+	}
 	public List<Coupon> loadmyCoupons(float sum) throws BaseException{
 		List<Coupon> result=new ArrayList<>();
 		Connection connection=null;
@@ -225,6 +266,46 @@ public class CouponManager {
 			connection=DBUtil.getConnection();
 			String sql="select * from coupon where User_id is null";
 			PreparedStatement pst=connection.prepareStatement(sql);
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Coupon p=new Coupon();
+				p.setCoupon_id(rst.getInt(1));
+				p.setCoupon_Userid(rst.getString(2));
+				p.setCoupon_statement(rst.getString(3));
+				p.setCoupon_between(rst.getFloat(4));
+				p.setCoupon_sub(rst.getFloat(5));
+				p.setCoupon_begin(rst.getTimestamp(6));
+				p.setCoupon_end(rst.getTimestamp(7));
+				p.setCoupon_used(rst.getTimestamp(8));
+				System.out.println(p);
+				result.add(p);
+			}
+			pst.close();
+			rst.close();
+			return result;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	}
+	}
+	public List<Coupon> loadallCoupons_sys(float x) throws BaseException{//管理员用的
+		List<Coupon> result=new ArrayList<>();
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from coupon where User_id is null and Coupon_between>=?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setFloat(1, x);
 			ResultSet rst=pst.executeQuery();
 			while(rst.next()) {
 				Coupon p=new Coupon();

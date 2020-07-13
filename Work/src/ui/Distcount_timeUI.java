@@ -16,9 +16,12 @@ import start.LoginStart;
 import util.BaseException;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Distcount_timeUI extends JFrame {
 
@@ -29,6 +32,7 @@ public class Distcount_timeUI extends JFrame {
 	private Object tblData[][];
 	private FMain fMain=null;
 	private JScrollPane jScrollPane;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -64,6 +68,19 @@ public class Distcount_timeUI extends JFrame {
 		JToolBar toolBar = new JToolBar();
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		
+		btnNewButton = new JButton("搜索");
+		btnNewButton.addActionListener((e)->{
+			String id=JOptionPane.showInputDialog("请输入产品id");
+			if(id.isEmpty()) {
+				load_distcountRow() ;
+			}
+			else {
+				int n=Integer.parseInt(id);
+				load_distcountRow(n);
+			}
+		});
+		toolBar.add(btnNewButton);
+		
 		JButton btnNewButton_back = new JButton("后退");
 		toolBar.add(btnNewButton_back);
 		btnNewButton_back.addActionListener((e)->{
@@ -75,6 +92,27 @@ public class Distcount_timeUI extends JFrame {
 	public void load_distcountRow() {
 		try {
 			List<Discount_time> list =LoginStart.dsiDiscountManager.loadallDiscount_time();
+			tblData=new Object[list.size()][6];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getDistcount_time_id();
+				tblData[i][1]=list.get(i).getProduct_id();
+				tblData[i][2]=list.get(i).getDistcount_time_price();
+				tblData[i][3]=list.get(i).getDistcount_time_count();
+				tblData[i][4]=list.get(i).getDistcount_time_begin();
+				tblData[i][5]=list.get(i).getDistcount_time_end();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void load_distcountRow(int n) {
+		try {
+			List<Discount_time> list =LoginStart.dsiDiscountManager.loadallDiscount_time(n);
 			tblData=new Object[list.size()][6];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getDistcount_time_id();

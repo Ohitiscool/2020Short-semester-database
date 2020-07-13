@@ -86,6 +86,18 @@ public class SystemList extends JFrame {
 			this.setVisible(false);
 			fMain.setEnabled(true);
 		});
+		
+		JButton btnNewButton_1 = new JButton("搜索");
+		btnNewButton_1.addActionListener((e)->{
+			String id=JOptionPane.showInputDialog("请输入管理员id");
+			if(id.isEmpty()) {
+				loadall();
+			}
+			else {
+				loadall(id);
+			}
+		});
+		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton_back);
 		
 		table = new JTable(tableModel);
@@ -96,6 +108,22 @@ public class SystemList extends JFrame {
 	public void loadall() {
 		try {
 			list=LoginStart.userManager.loadsystemuser();
+			tblData=new Object[list.size()][2];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getSystemUser_id();
+				tblData[i][1]=list.get(i).getSystemUser_name();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadall(String id) {
+		try {
+			list=LoginStart.userManager.loadsystemuser(id);
 			tblData=new Object[list.size()][2];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getSystemUser_id();

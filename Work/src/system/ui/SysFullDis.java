@@ -109,6 +109,19 @@ public class SysFullDis extends JFrame {
 			}
 			
 		});
+		
+		JButton btnNewButton_3 = new JButton("搜索");
+		btnNewButton_3.addActionListener((e)->{
+			String id=JOptionPane.showInputDialog("请输入产品id");
+			if(id.isEmpty()) {
+				loadManzheRow();
+			}
+			else {
+				int n=Integer.parseInt(id);
+				loadManzheRow(n);
+			}
+		});
+		toolBar.add(btnNewButton_3);
 		toolBar.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("后退");
@@ -126,6 +139,28 @@ public class SysFullDis extends JFrame {
 	public void loadManzheRow() {
 		try {
 			List<Full_discount> list =LoginStart.full_distcountManager.loadallfull_sys();
+			tblData=new Object[list.size()][7];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getFull_distcount_id();
+				tblData[i][1]=list.get(i).getFull_distcount_product_id();
+				tblData[i][2]=list.get(i).getFull_distcount_base();
+				tblData[i][3]=list.get(i).getFull_distcount_discount();
+				tblData[i][4]=list.get(i).getFull_distcount_begin_id();
+				tblData[i][5]=list.get(i).getFull_distcount_end_id();
+				tblData[i][6]=list.get(i).getFull_distcount_statement();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadManzheRow(int n) {
+		try {
+			List<Full_discount> list =LoginStart.full_distcountManager.loadallfull_sys(n);
 			tblData=new Object[list.size()][7];
 			for(int i=0;i<list.size();i++) {
 				tblData[i][0]=list.get(i).getFull_distcount_id();

@@ -34,6 +34,7 @@ public class SysCouponUI extends JFrame implements ActionListener{
 	private JButton btnNewButton_1 = new JButton("删除优惠券");
 	private JButton btnNewButton_2 = new JButton("后退");
 	private JScrollPane jScrollPane;
+	private JButton btnNewButton_3;
 	/**
 	 * Launch the application.
 	 */
@@ -70,6 +71,19 @@ public class SysCouponUI extends JFrame implements ActionListener{
 		toolBar.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(this);
 		
+		btnNewButton_3 = new JButton("搜索");
+		btnNewButton_3.addActionListener((e)->{
+			String base=JOptionPane.showInputDialog("请输入使用金额门槛");
+			if(base.isEmpty()) {
+				loadCouponRow();
+			}
+			else {
+				float x=Float.parseFloat(base);
+				loadCouponRow(x);
+			}
+		});
+		toolBar.add(btnNewButton_3);
+		
 		toolBar.add(btnNewButton_2);
 		btnNewButton_2.addActionListener((e)->{
 			this.setVisible(false);
@@ -102,6 +116,26 @@ public class SysCouponUI extends JFrame implements ActionListener{
 		e.printStackTrace();
 	 	}
 	}
+	public void loadCouponRow(float x) {
+		try {
+			List<Coupon> list =LoginStart.couponManager.loadallCoupons_sys(x);
+			tblData=new Object[list.size()][5];
+			for(int i=0;i<list.size();i++) {
+				tblData[i][0]=list.get(i).getCoupon_id();
+				tblData[i][1]=list.get(i).getCoupon_between();
+				tblData[i][2]=list.get(i).getCoupon_sub();
+				tblData[i][3]=list.get(i).getCoupon_begin();
+				tblData[i][4]=list.get(i).getCoupon_end();
+			}
+			tableModel.setDataVector(tblData, titles);
+			this.table.validate();
+			this.table.repaint();
+			}
+		 catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		 	}
+		}
 	public void setfmain(SystemMain f) {
 		this.fMain=f;
 	}

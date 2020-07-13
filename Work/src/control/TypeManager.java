@@ -47,6 +47,38 @@ public class TypeManager {
 			}
 		}
 	}
+	public List<Type> loadallTypes (String name) throws BaseException {
+		List<Type> list=new ArrayList<>();
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from product_type where Product_type_name like ?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1, "%"+name+"%");
+			ResultSet rst=pst.executeQuery();
+			while(rst.next()) {
+				Type p=new Type();
+				p.setType_id(rst.getInt(1));
+				p.setType_name(rst.getString(2));
+				p.setState(rst.getString(3));
+				list.add(p);
+			}
+			return list;
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public void addTypes (Type type) throws BaseException {
 		Connection connection=null;
 		try {
@@ -120,7 +152,7 @@ public class TypeManager {
 			}
 		}
 	}
-	public List<Type> loadallTypes (String on) throws BaseException {
+	public List<Type> loaduseTypes (String on) throws BaseException { ///使用的
 		List<Type> list=new ArrayList<>();
 		Connection connection=null;
 		try {

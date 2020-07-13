@@ -39,6 +39,7 @@ public class SysProductUI extends JFrame implements ActionListener{
 	private JScrollPane jScrollPane;
 	private model.Type type;
 	private Product product;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -79,6 +80,18 @@ public class SysProductUI extends JFrame implements ActionListener{
 			fMain.setEnabled(true);
 		});
 		
+		btnNewButton = new JButton("搜索");
+		btnNewButton.addActionListener((e)->{
+			String name=JOptionPane.showInputDialog("请输入商品名");
+			if(name.isEmpty()) {
+				loadproduct();
+			}
+			else {
+				loadproduct(name);
+			}
+		});
+		toolBar.add(btnNewButton);
+		
 		toolBar.add(btnNewButton_back);
 		
 		table = new JTable(tabkleModel);
@@ -90,6 +103,28 @@ public class SysProductUI extends JFrame implements ActionListener{
 	public void loadproduct() {
 		try {
 			java.util.List<Product> list=LoginStart.productManager.loadall();
+			tbldata=new Object[list.size()][8];
+				for(int i=0;i<list.size();i++) {
+				tbldata[i][0]=list.get(i).getProduct_id();
+				tbldata[i][1]=list.get(i).getProduct_type_id();
+				tbldata[i][2]=list.get(i).getProduct_name();
+				tbldata[i][3]=list.get(i).getProduct_price();
+				tbldata[i][4]=list.get(i).getProduct_vip_price();
+				tbldata[i][5]=list.get(i).getProduct_stock();
+				tbldata[i][6]=list.get(i).getProduct_format();
+				tbldata[i][7]=list.get(i).getProduct_statement();
+			}
+			tabkleModel.setDataVector(tbldata, titles);
+			this.table.validate();
+			this.table.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadproduct(String name) {
+		try {
+			java.util.List<Product> list=LoginStart.productManager.loadall(name);
 			tbldata=new Object[list.size()][8];
 				for(int i=0;i<list.size();i++) {
 				tbldata[i][0]=list.get(i).getProduct_id();
