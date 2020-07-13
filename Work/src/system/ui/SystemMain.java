@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import model.*;
 import ui.Distcount_timeUI;
+import ui.Product_evalution;
 import control.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -64,6 +65,15 @@ public class SystemMain extends JFrame {
 			sysProductUI.setFmain(this);
 		});
 		mnNewMenu.add(mntmNewMenuItem_3);
+		
+		JMenuItem menuItem = new JMenuItem("菜谱管理");
+		menuItem.addActionListener((e)->{
+			MenuAndStep menuAndStep=new MenuAndStep();
+			menuAndStep.setVisible(true);
+			menuAndStep.setfmain(this);
+			this.setEnabled(false);
+		});
+		mnNewMenu.add(menuItem);
 		
 		JMenu mnNewMenu_1 = new JMenu("折扣管理");
 		menuBar.add(mnNewMenu_1);
@@ -121,6 +131,21 @@ public class SystemMain extends JFrame {
 		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("商品订单");
 		mnNewMenu_3.add(mntmNewMenuItem_7);
+		
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("商品评价");
+		mntmNewMenuItem_8.addActionListener((e)->{
+			Product_evalution product_evalution=new Product_evalution();
+			product_evalution.setVisible(true);
+			this.setEnabled(false);
+			product_evalution.setsys(this);
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_8);
+		mntmNewMenuItem_7.addActionListener((e)->{
+			OrderSys orderSys =new OrderSys();
+			orderSys.setVisible(true);
+			orderSys.setFrame(this);
+			this.setEnabled(false);
+		});
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));

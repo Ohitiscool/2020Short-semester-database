@@ -89,6 +89,10 @@ public class OrderSys extends JFrame {
 		
 		JButton btnNewButton_1 = new JButton("后退");
 		toolBar.add(btnNewButton_1);
+		btnNewButton_1.addActionListener((e)->{
+			this.setVisible(false);
+			fMain.setEnabled(true);
+		});
 		loadmyorder();
 	}
 	public void loadmyorder()  {
@@ -117,6 +121,9 @@ public class OrderSys extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public void setFrame(SystemMain  f) {
+		this.fMain=f;
 	}
 
 }

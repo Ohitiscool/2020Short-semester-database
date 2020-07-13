@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Coupon;
 import model.Product_eva;
 import start.LoginStart;
+import system.ui.SystemMain;
 import util.BaseException;
 
 import javax.swing.JToolBar;
@@ -30,7 +31,7 @@ public class Product_evalution extends JFrame {
 	private Object tblData[][];
 	private FMain fMain=null;
 	private JScrollPane jScrollPane;
-
+	private SystemMain sys;
 
 	/**
 	 * Launch the application.
@@ -64,7 +65,12 @@ public class Product_evalution extends JFrame {
 		
 		JButton btnNewButton = new JButton("后退");
 		btnNewButton.addActionListener((e)->{
+			if(fMain!=null) {
 			fMain.setEnabled(true);
+			}
+			if(sys!=null) {
+			sys.setEnabled(true);
+			}
 			this.setVisible(false);
 		});
 		toolBar.add(btnNewButton);
@@ -97,6 +103,9 @@ public class Product_evalution extends JFrame {
 	}
 	public void setfmain(FMain f) {
 		this.fMain=f;
+	}
+	public void setsys(SystemMain f) {
+		this.sys=f;
 	}
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 import control.CouponManager;
 import control.DiscountManager;
 import control.Full_distcountManager;
+import control.MenuManager;
 import control.OrderManager;
 import control.ProductManager;
 import control.TypeManager;
@@ -20,4 +21,5 @@ public class LoginStart {
 	public static Full_distcountManager full_distcountManager=new Full_distcountManager();
 	public static OrderManager orderManager=new OrderManager();
 	public static TypeManager typeManager=new TypeManager();
+	public static MenuManager menuManager=new MenuManager();
 }

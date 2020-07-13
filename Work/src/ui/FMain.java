@@ -78,9 +78,6 @@ public class FMain extends JFrame {
 		});
 		Menu_product.add(menuItem_product);
 		
-		JMenuItem menuItem_menu = new JMenuItem("菜谱");
-		Menu_product.add(menuItem_menu);
-		
 		JMenuItem menuItem_product_sugg = new JMenuItem("商品推荐");
 		menuItem_product_sugg.addActionListener((e)->{
 			Product_sugg product_sugg=new Product_sugg();
@@ -90,9 +87,6 @@ public class FMain extends JFrame {
 		});
 		Menu_product.add(menuItem_product_sugg);
 		
-		JMenuItem menuItem_menu_sugg = new JMenuItem("菜谱推荐");
-		Menu_product.add(menuItem_menu_sugg);
-		
 		JMenuItem menuItem_product_statement = new JMenuItem("商品评价");
 		menuItem_product_statement.addActionListener((e)->{
 			Product_evalution product_evalution=new Product_evalution();
@@ -101,6 +95,15 @@ public class FMain extends JFrame {
 			product_evalution.setfmain(this);
 		});
 		Menu_product.add(menuItem_product_statement);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("菜谱");
+		mntmNewMenuItem.addActionListener((e)->{
+			MenuUser menuUser=new MenuUser();
+			menuUser.setVisible(true);
+			menuUser.setfmain(this);
+			this.setEnabled(false);
+		});
+		Menu_product.add(mntmNewMenuItem);
 		
 		JMenu Menu_coupon = new JMenu("优惠券");
 		Menu_coupon.setForeground(Color.BLACK);
@@ -167,6 +170,16 @@ public class FMain extends JFrame {
 			mycoupon.setVisible(true);
 		});
 		Menu_mine.add(Menuitem_mine_coupon);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("修改密码");
+		mntmNewMenuItem_1.addActionListener((e)->{
+			modifypwd mo=new modifypwd(this, "修改密码", true);
+			mo.setVisible(true);
+			if(mo.exec()) {
+				JOptionPane.showMessageDialog(null, "修改成功");
+			}
+		});
+		Menu_mine.add(mntmNewMenuItem_1);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

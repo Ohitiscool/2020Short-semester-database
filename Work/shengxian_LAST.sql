@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Sybase SQL Anywhere 12                       */
-/* Created on:     2020/7/12 4:27:59                            */
+/* Created on:     2020/7/13 20:47:30                           */
 /*==============================================================*/
 
 
@@ -12,11 +12,6 @@ end if;
 if exists(select 1 from sys.sysforeignkey where role='FK_COUPON_RELATIONS_USERLIST') then
     alter table Coupon
        delete foreign key FK_COUPON_RELATIONS_USERLIST
-end if;
-
-if exists(select 1 from sys.sysforeignkey where role='FK_MENU_SUG_RELATIONS_MENU') then
-    alter table Menu_suggestion
-       delete foreign key FK_MENU_SUG_RELATIONS_MENU
 end if;
 
 if exists(select 1 from sys.sysforeignkey where role='FK_PRODUCT_RELATIONS_PRODUCT_') then
@@ -55,11 +50,11 @@ drop index if exists Menu.Menu_PK;
 
 drop table if exists Menu;
 
-drop index if exists Menu_suggestion.Relationship_2_FK;
+drop index if exists Menu_step.Menu_step_PK;
 
-drop table if exists Menu_suggestion;
+drop table if exists Menu_step;
 
-drop index if exists Order_product.Order_info_PK;
+drop index if exists Order_product.Order_product_PK;
 
 drop table if exists Order_product;
 
@@ -171,9 +166,6 @@ create table Menu
 (
    Menu_id              integer                        not null,
    Menu_name            varchar(20)                    null,
-   Menu_product         varchar(255)                   null,
-   Menu_step            varchar(255)                   null,
-   Menu_imag            long binary                    null,
    constraint PK_MENU primary key (Menu_id)
 );
 
@@ -185,19 +177,22 @@ Menu_id ASC
 );
 
 /*==============================================================*/
-/* Table: Menu_suggestion                                       */
+/* Table: Menu_step                                             */
 /*==============================================================*/
-create table Menu_suggestion 
+create table Menu_step 
 (
-   Menu_id              integer                        null,
-   Menu_suggestion      varchar(255)                   null
+   Menu_step_id         integer                        not null,
+   Menu_step_menuid     integer                        null,
+   Menu_step_product    varchar(255)                   null,
+   Menu_statement       varchar(255)                   null,
+   constraint PK_MENU_STEP primary key (Menu_step_id)
 );
 
 /*==============================================================*/
-/* Index: Relationship_2_FK                                     */
+/* Index: Menu_step_PK                                          */
 /*==============================================================*/
-create index Relationship_2_FK on Menu_suggestion (
-Menu_id ASC
+create unique index Menu_step_PK on Menu_step (
+Menu_step_id ASC
 );
 
 /*==============================================================*/
@@ -223,9 +218,9 @@ create table Order_product
 );
 
 /*==============================================================*/
-/* Index: Order_info_PK                                         */
+/* Index: Order_product_PK                                      */
 /*==============================================================*/
-create unique index Order_info_PK on Order_product (
+create unique index Order_product_PK on Order_product (
 Oder_info_Order_id ASC
 );
 
@@ -444,12 +439,6 @@ alter table Address
 alter table Coupon
    add constraint FK_COUPON_RELATIONS_USERLIST foreign key (User_id)
       references UserList (User_id)
-      on update restrict
-      on delete restrict;
-
-alter table Menu_suggestion
-   add constraint FK_MENU_SUG_RELATIONS_MENU foreign key (Menu_id)
-      references Menu (Menu_id)
       on update restrict
       on delete restrict;
 

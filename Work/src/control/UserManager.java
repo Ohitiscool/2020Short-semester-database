@@ -115,12 +115,12 @@ public class UserManager {
 		Connection connection=null;
 		try {
 			connection=DBUtil.getConnection();
-			String sql="select * from systemuser where SystemUser_id=? and SystemUser_pwd=?";
+			String sql="select * from systemuser where SystemUser_id=? and SystemUser_pwd=? ";
 			PreparedStatement pst=connection.prepareStatement(sql);
 			pst.setString(1, userid);
 			pst.setString(2, pwd);
 			ResultSet rst=pst.executeQuery();
-			if(!rst.next()) throw new BussinessException("不存在此用户或者密码错误");
+			if(!rst.next()) throw new BussinessException("不存在此用户或者密码错误或者已经注销");
 			else {
 				SystemUser systemUser=new SystemUser();
 				systemUser.setSystemUser_id(userid);
@@ -587,6 +587,39 @@ public class UserManager {
 			pst.setString(1, s);
 			pst.execute();
 			pst.close();
+			}
+		catch(SQLException ex){
+			ex.printStackTrace();
+			throw new DbException(ex);
+		}
+		finally {
+			if(connection!=null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	public void modifypwduser(String pwd,String pwd1) throws BaseException{
+		Connection connection=null;
+		try {
+			connection=DBUtil.getConnection();
+			String sql="select * from userlist where user_id=? and User_pwd=?";
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1, User.currentLoginUser.getUser_id());
+			pst.setString(2, pwd);
+			ResultSet rst=pst.executeQuery();
+			if(!rst.next()) throw new BussinessException("密码错误");
+			pst.close();
+			rst.close();
+			sql="update userlist set User_pwd=? where user_id=? ";
+			pst=connection.prepareStatement(sql);
+			pst.setString(1, pwd1);
+			pst.setString(2, User.currentLoginUser.getUser_id());
+			pst.execute();
 			}
 		catch(SQLException ex){
 			ex.printStackTrace();
