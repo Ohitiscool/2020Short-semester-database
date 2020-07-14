@@ -118,6 +118,7 @@ public class Choose_Product extends JDialog {
 				try {
 					product=LoginStart.productManager.anyProduct(n);
 				} catch (BaseException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),"提示",JOptionPane.ERROR_MESSAGE);
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

@@ -90,14 +90,34 @@ public class OrderSys extends JFrame {
 		
 		btnNewButton_2 = new JButton("搜索");
 		btnNewButton_2.addActionListener((e)->{
-			String id=JOptionPane.showInputDialog("请输入产品id");
-			if(id.isEmpty()) {
-				loadmyorder();
+			OrderSearch orderSearch=new OrderSearch(this, "搜索信息输入", true);
+			orderSearch.setVisible(true);
+			String product;
+			String user;
+			if(orderSearch.exec()) {
+				product=orderSearch.getProductid();
+				user=orderSearch.getUserid();
+				if(product.isEmpty()&&user.isEmpty()) loadmyorder();
+				else if(user.isEmpty()&&!product.isEmpty()) {
+					int n=Integer.parseInt(product);
+					loadmyorder(n);
+				}
+				else if(!user.isEmpty()&&!product.isEmpty()) {
+					int n=Integer.parseInt(product);
+					loadmyorder(n,user);
+				}
+				else if(!user.isEmpty()&&product.isEmpty()) {
+					loadmyorder(user);
+				}
 			}
-			else {
-				int n=Integer.parseInt(id);
-				loadmyorder(n);
-			}
+//			String id=JOptionPane.showInputDialog("请输入产品id");
+//			if(id.isEmpty()) {
+//				loadmyorder();
+//			}
+//			else {
+//				int n=Integer.parseInt(id);
+//				loadmyorder(n);
+//			}
 		});
 		toolBar.add(btnNewButton_2);
 		
@@ -139,6 +159,60 @@ public class OrderSys extends JFrame {
 	public void loadmyorder(int n)  {
 		try {
 			list=LoginStart.orderManager.loadroder(n);
+			tbldata=new Object[list.size()][13];
+			 for(int i=0;i<list.size();i++) {
+				 tbldata[i][0]=list.get(i).getOrder_info_Order_id();
+				 tbldata[i][1]=list.get(i).getOrder_info_product_id();
+				 tbldata[i][2]=list.get(i).getOrder_info_user_id();
+				 tbldata[i][3]=list.get(i).getOrder_info_count();
+				 tbldata[i][4]=list.get(i).getOrder_info_discount_time_id();
+				 tbldata[i][5]=list.get(i).getOrder_info_begin_price();
+				 tbldata[i][6]=list.get(i).getOrder_info_end_price();
+				 tbldata[i][7]=list.get(i).getOrder_info_coupon_id();
+				 tbldata[i][8]=list.get(i).getOder_info_fulldiscount_ID();
+				 tbldata[i][9]=list.get(i).getOrder_info_Order_planTime();
+				 tbldata[i][10]=list.get(i).getOrder_info_order_finishTime();
+				 tbldata[i][11]=list.get(i).getOder_info_address_id();
+				 tbldata[i][12]=list.get(i).getOder_info_statement();
+			 }
+			 tableModel.setDataVector(tbldata, titles);
+			 this.table.validate();
+			 this.table.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadmyorder(String userid)  {
+		try {
+			list=LoginStart.orderManager.loadroder(userid);
+			tbldata=new Object[list.size()][13];
+			 for(int i=0;i<list.size();i++) {
+				 tbldata[i][0]=list.get(i).getOrder_info_Order_id();
+				 tbldata[i][1]=list.get(i).getOrder_info_product_id();
+				 tbldata[i][2]=list.get(i).getOrder_info_user_id();
+				 tbldata[i][3]=list.get(i).getOrder_info_count();
+				 tbldata[i][4]=list.get(i).getOrder_info_discount_time_id();
+				 tbldata[i][5]=list.get(i).getOrder_info_begin_price();
+				 tbldata[i][6]=list.get(i).getOrder_info_end_price();
+				 tbldata[i][7]=list.get(i).getOrder_info_coupon_id();
+				 tbldata[i][8]=list.get(i).getOder_info_fulldiscount_ID();
+				 tbldata[i][9]=list.get(i).getOrder_info_Order_planTime();
+				 tbldata[i][10]=list.get(i).getOrder_info_order_finishTime();
+				 tbldata[i][11]=list.get(i).getOder_info_address_id();
+				 tbldata[i][12]=list.get(i).getOder_info_statement();
+			 }
+			 tableModel.setDataVector(tbldata, titles);
+			 this.table.validate();
+			 this.table.repaint();
+		} catch (BaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadmyorder(int n,String userid)  {
+		try {
+			list=LoginStart.orderManager.loadroder(n,userid);
 			tbldata=new Object[list.size()][13];
 			 for(int i=0;i<list.size();i++) {
 				 tbldata[i][0]=list.get(i).getOrder_info_Order_id();

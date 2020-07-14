@@ -54,6 +54,7 @@ public class modifypwd extends JDialog {
 					modify();
 					retval=true;
 					this.setVisible(false);
+					retval=true;
 				}
 			});
 			okButton.setBounds(113, 166, 69, 23);

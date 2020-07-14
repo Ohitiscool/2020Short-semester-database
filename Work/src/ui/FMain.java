@@ -175,9 +175,6 @@ public class FMain extends JFrame {
 		mntmNewMenuItem_1.addActionListener((e)->{
 			modifypwd mo=new modifypwd(this, "修改密码", true);
 			mo.setVisible(true);
-			if(mo.exec()) {
-				JOptionPane.showMessageDialog(null, "修改成功");
-			}
 		});
 		Menu_mine.add(mntmNewMenuItem_1);
 		contentPane = new JPanel();
